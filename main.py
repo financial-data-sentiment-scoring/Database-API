@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from datetime import datetime, timedelta
 from database import SessionLocal, Article
+from flask_cors import CORS
 import sqlalchemy
 import os
 
