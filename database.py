@@ -44,7 +44,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Define Article model
 class Article(Base):
-    __tablename__ = 'articles'
+    __tablename__ = 'sentiment_scores'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     ticker = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=False)
