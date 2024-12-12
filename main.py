@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from datetime import datetime, timedelta
 from database import SessionLocal, Article
+import sqlalchemy
 import os
 
 app = Flask(__name__)
