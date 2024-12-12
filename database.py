@@ -10,9 +10,9 @@ Base = declarative_base()
 
 # Database connection setup
 def connect_to_db():
-    instance_connection_name = "cloud-computing-439018:us-central1:prod2"
-    db_user = "user"
-    db_pass = "user"
+    instance_connection_name = "big-data-441922:us-central1:ticker-info"
+    db_user = "postgres"
+    db_pass = "password"
     db_name = "postgres"
     ip_type = IPTypes.PRIVATE if os.getenv("PRIVATE_IP") else IPTypes.PUBLIC
 
