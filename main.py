@@ -5,7 +5,7 @@ import sqlalchemy
 import os
 
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/api/scores', methods=['GET'])
 def get_scores():
     db = SessionLocal()
