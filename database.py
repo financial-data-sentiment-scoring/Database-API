@@ -124,7 +124,7 @@ class Tweet(Base):
     username = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     favorite_count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     retweet_count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    date = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    timestamp = sqlalchemy.Column(sqlalchemy.DateTime, nullable=False)
     score = sqlalchemy.Column(sqlalchemy.Float, nullable=False)
     ticker = sqlalchemy.Column(sqlalchemy.String, nullable=False)  # Assuming each tweet is associated with a ticker
 
