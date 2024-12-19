@@ -99,8 +99,8 @@ def get_scores():
 def get_tweet_scores():
     """
     Endpoint to get sentiment scores for tweets within a specific time range.
-    Handles timestamps stored as strings in the format 'YYYY-MM-DD HH:MM:SS EST',
-    while accepting input in ISO 8601 format.
+    The `date` column is stored as a proper `timestamp`.
+    Accepts input in ISO 8601 format (e.g., '2024-12-19T08:00:00').
     """
     db = SessionLocal()
     try:
@@ -118,10 +118,6 @@ def get_tweet_scores():
         except ValueError:
             return jsonify({"error": "Invalid date format. Use ISO 8601 format (e.g., '2024-12-19T08:00:00')."}), 400
 
-        # Convert datetime objects to match the database's string format
-        def to_db_timestamp(dt):
-            return dt.strftime('%Y-%m-%d %H:%M:%S EST')
-
         # Calculate scores for each hour in the range
         results = []
         current_time = start_time
@@ -129,10 +125,6 @@ def get_tweet_scores():
             # Calculate the 5-hour range
             range_start = current_time - timedelta(hours=5)
             range_end = current_time
-
-            # Convert range_start and range_end to database-compatible strings
-            range_start_str = to_db_timestamp(range_start)
-            range_end_str = to_db_timestamp(range_end)
 
             # Query scores within the 5-hour range
             scores = db.query(
@@ -142,15 +134,15 @@ def get_tweet_scores():
                 sqlalchemy.func.min(Tweet.score).label('min_score'),
                 sqlalchemy.func.stddev(Tweet.score).label('std_dev')
             ).filter(
-                Tweet.date >= range_start_str,
-                Tweet.date < range_end_str
+                Tweet.timestamp >= range_start,
+                Tweet.timestamp < range_end
             ).group_by(Tweet.ticker).all()
 
             # Append results
             for r in scores:
                 results.append({
                     "ticker": r[0],
-                    "hour": current_time.isoformat(),
+                    "hour": current_time.isoformat(),  # Keep ISO 8601 format in the response
                     "avg_score": r[1],
                     "max_score": r[2],
                     "min_score": r[3],
